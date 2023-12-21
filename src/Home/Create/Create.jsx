@@ -1,28 +1,40 @@
 import axios from 'axios';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 
 const Create = () => {
 
+  const { user } = useContext(AuthContext);
+
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
       } = useForm();
 
       const onSubmit = data => {
 
+      const createTodo = {
 
-        console.log(data);
+            title : data.Title,
+            descriptions: data.Descriptions,
+            deadline : data.Deadline,
+            status: 'todo',
+            email: user?.email
 
-        // createTodo = {
-        //     title : data.Title,
-        //     descriptions: data.Descriptions,
-        //     Deadline : data.Deadline
-        // }
+        
+        }
 
-        axios.post('http://localhost:5000/createtodo', data)
-
+        axios.post('http://localhost:5000/createtodo', createTodo)
+        .then(res => {
+          console.log(res.data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
       }
     
 
@@ -46,7 +58,7 @@ const Create = () => {
               name="title"
               placeholder="Title Here"
               {...register('Title', { required: true })}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-[#F0ECE5] leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             />
               {errors.Title && <p className='text-red-700 text-center mt-2'>*Title required.</p>}
 

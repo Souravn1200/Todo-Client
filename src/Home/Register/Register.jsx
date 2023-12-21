@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Providers/AuthProvider';
+import axios from 'axios';
 
 const Register = () => {
 
-    const {createUser} = useContext(AuthContext);
+    const { createUser } = useContext(AuthContext);
     const {
         register,
         handleSubmit,
@@ -17,10 +18,18 @@ const Register = () => {
 
         const email = data.email;
         const password = data.password;
+        const photo = data.photo;
 
         createUser(email, password);
-
         console.log(email, password);
+
+        const dbSaveUser = {
+            email: email,
+            password: password,
+            photo: photo
+
+        }
+        axios.post('http://localhost:5000/todouser', dbSaveUser);
 
     }
 
