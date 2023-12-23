@@ -16,6 +16,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Login from './Home/Login/Login.jsx';
 import ContentDetails from './Home/ContentDetails/ContentDetails.jsx';
+import Update from './Home/Update/Update.jsx';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
         path: '/todo-details/:id',
         loader: ({params}) => fetch(`http://localhost:5000/todo-details/${params.id}`),
         element: <ContentDetails></ContentDetails>
+      },
+      {
+        path: '/update-content/:id',
+        loader: ({params}) => fetch(`http://localhost:5000/todo-details/${params.id}`),
+        element: <Update></Update>
       }
     ],
   },

@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { useContext } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthContext } from '../../Providers/AuthProvider';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 
-const Create = () => {
-
-  const { user } = useContext(AuthContext);
-
+const Update = () => {
+    const { _id, title, descriptions, deadline, status, priority, email } = useLoaderData();
+    
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -17,28 +18,47 @@ const Create = () => {
 
       const onSubmit = data => {
 
-      const createTodo = {
+        console.log(data);
+    //   const createTodo = {
 
-            title : data.Title,
-            descriptions: data.Descriptions,
-            deadline : data.Deadline,
-            status: 'todo',
-            email: user?.email,
-            priority : data.Priority
+    //         title : data.Title,
+    //         descriptions: data.Descriptions,
+    //         deadline : data.Deadline,
+    //         status: 'completed',
 
         
-        }
+    //     }
 
-        axios.post('http://localhost:5000/createtodo', createTodo)
-        .then(res => {
-          console.log(res.data);
+    //     axios.post('http://localhost:5000/createtodo', createTodo)
+    //     .then(res => {
+    //       console.log(res.data);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   })
+
+
+    axios.patch(`http://localhost:5000/content-update/${_id}`, data)
+    .then(res => {
+        console.log(res.data);
+        if(res.data.acknowledged === true) {
+            navigate('/')
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Content Updated",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
       })
-      .catch(error => {
-        console.log(error);
+      .then(err=> {
+        console.log(err);
       })
+
       }
     
-
+    
     return (
         <div className="max-w-md mx-auto pt-8 pb-8">
 
@@ -58,6 +78,7 @@ const Create = () => {
               id="title"
               name="title"
               placeholder="Title Here"
+              defaultValue={title}
               {...register('Title', { required: true })}
               className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             />
@@ -76,6 +97,7 @@ const Create = () => {
               id="message"
               name="message"
               placeholder="Enter your message"
+              defaultValue={descriptions}
               {...register('Descriptions', { required: true })}
               className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline h-32 resize-none"
             ></textarea>
@@ -94,6 +116,7 @@ const Create = () => {
               id="email"
               name="email"
               placeholder="Enter your email"
+              defaultValue={deadline}
               {...register('Deadline', { required: true })}
               
              
@@ -113,6 +136,7 @@ const Create = () => {
             id="priority"
             name="Priority"
             {...register('Priority')}
+            defaultValue={priority}
             className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option className='bg-info' value="Low">Low</option>
@@ -134,4 +158,4 @@ const Create = () => {
     );
 };
 
-export default Create;
+export default Update;

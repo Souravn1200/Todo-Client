@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 const Home = () => {
     return (
-        <div className='bg-[#161A30]'>
+        <div className=''>
            <Navbar></Navbar>
            <Outlet></Outlet>
         </div>
