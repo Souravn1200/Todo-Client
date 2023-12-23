@@ -22,7 +22,7 @@ const Create = () => {
             title : data.Title,
             descriptions: data.Descriptions,
             deadline : data.Deadline,
-            status: 'todo',
+            status: 'completed',
             email: user?.email
 
         

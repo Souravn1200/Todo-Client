@@ -2,10 +2,14 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Providers/AuthProvider';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, updateProfile } from 'firebase/auth';
 
 const Register = () => {
 
-    const { createUser } = useContext(AuthContext);
+    const { createUser, logOut} = useContext(AuthContext);
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -15,12 +19,36 @@ const Register = () => {
 
 
     const onSubmit = data => {
-
         const email = data.email;
         const password = data.password;
         const photo = data.photo;
+        const name = data.name;
+      
+        const auth = getAuth(); 
+      
+        createUser(email, password)
+          .then(result => {
+            const user = result.user; 
 
-        createUser(email, password);
+            
+            updateProfile(auth.currentUser, {
+              displayName: name,
+              photoURL: photo,
+            })
+              .then(() => {
+                if (user.email) {
+                  navigate('/');
+                }
+              })
+              .catch(error => {
+                console.log('Error updating profile: ', error);
+              });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
+
         console.log(email, password);
 
         const dbSaveUser = {

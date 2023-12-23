@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
 import axios from 'axios';
 import TodoContents from './TodoContents';
+import OngingContents from './OngingContents';
+import CompletedContents from './CompletedContents';
 
 const Content = () => {
 
@@ -11,6 +13,7 @@ const Content = () => {
   let ongoings = [];
   let completed = [];
 
+console.log(user);
   useEffect(() => {
     axios.get(`http://localhost:5000/load-todo-content/${user?.email}`)
       .then(res => {
@@ -36,14 +39,18 @@ const Content = () => {
       <div className="flex bg-[#161A30] min-h-screen">
         {/* Sidebar */}
         <aside className="w-1/4  text-white py-8 px-4">
-          {/* Sidebar Content */}
-          <h2 className="text-2xl font-semibold mb-4">Dashboard</h2>
-          {/* Add sidebar items or navigation links */}
-          <ul className="space-y-2">
-            <li>Dashboard Item 1</li>
-            <li>Dashboard Item 2</li>
-            <li>Dashboard Item 3</li>
-          </ul>
+
+            <div className='flex items-center gap-8 mb-3'>
+              <img  className='h-10 cover' src={user?.photoURL} alt="" />
+              <div>
+            <span> Name : {user?.displayName}</span>
+             <span> Email : {user?.email}</span>
+
+            </div>
+            </div>
+
+            
+
         </aside>
 
         {/* Main Content - 3 Columns */}
@@ -62,13 +69,13 @@ const Content = () => {
             {/* Ongoing List */}
             <div className="w-full lg:w-1/3 rounded-sm border">
               <h2 className="text-xl font-semibold text-center bg-[#B6BBC4] ">Ongoing List</h2>
-              {/* Add your ongoing list components here */}
+            <OngingContents ongings={ongoings}></OngingContents>
             </div>
 
             {/* Completed List */}
             <div className="w-full lg:w-1/3 rounded-sm border">
               <h2 className="text-xl font-semibold text-center bg-[#B6BBC4]">Completed List</h2>
-              {/* Add your completed list components here */}
+             <CompletedContents completed={completed}></CompletedContents>
             </div>
           </div>
         </main>
