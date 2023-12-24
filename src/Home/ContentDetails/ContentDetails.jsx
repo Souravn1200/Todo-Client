@@ -59,7 +59,7 @@ const ContentDetails = () => {
     .then(res => {
         console.log(res.data);
         if(res.data.acknowledged === true) {
-            navigate('/')
+            navigate('/dashboard')
             Swal.fire({
               position: "center",
               icon: "success",
@@ -78,14 +78,17 @@ const ContentDetails = () => {
   return (
 
     
-    <div className="bg-yellow-50  mt-10 shadow-md rounded-lg p-6 md:p-8 lg:p-10 xl:p-12 max-w-lg mx-auto mb-6">
+    <div className=" shadow-md rounded-lg p-6 md:p-8 lg:p-10 xl:p-12 max-w-lg mx-auto mb-6">
 
 {
     status === 'todo' ? 
      
     <> 
-<button className='bg-red-400 px-3 py-1 rounded-md text-black text-sm' onClick={() =>makeContentOnging(_id)}> Make Onging </button>
-<button className='bg-red-400 px-3 py-1 rounded-md text-black text-sm' onClick={() =>makeContentCompleted(_id)}> Make Complete </button>
+    <div className='flex items-center justify-end gap-5'>
+    <button className='bg-blue-400 hover:bg-blue-500 px-5 py-2 rounded-md text-black ' onClick={() =>makeContentOnging(_id)}> Make Onging </button>
+<button className='bg-green-400 hover:bg-green-500 px-5 py-2 rounded-md text-black' onClick={() =>makeContentCompleted(_id)}> Make Complete </button>
+    </div>
+
     
     </> 
     
@@ -94,7 +97,7 @@ const ContentDetails = () => {
     status === 'ongoing' ? 
     
     <>
-<button className='bg-red-400 px-3 py-1 rounded-md text-black text-sm' onClick={() =>makeContentCompleted(_id)}> Make Complete </button>
+<button className='bg-slate-500 px-5 py-2 rounded-md text-black' onClick={() =>makeContentCompleted(_id)}> Make Complete </button>
     
     </> 
     
@@ -107,30 +110,36 @@ const ContentDetails = () => {
 
 
 
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800">{title}</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-[#f2f2f2] mt-10">{title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <p className="text-gray-600 mb-2 text-sm">Description: {descriptions}</p>
+          <p className="text-[#f4f4f4] mb-2 text-sm">Description: {descriptions}</p>
           
         </div>
         <div>
-          <p className="text-gray-600 mb-2 text-sm">Deadline:  {deadline}</p>
+          <p className="text-[#f4f4f4] mb-2 text-sm">Deadline:  {deadline}</p>
         </div>
       </div>
-      <div className="flex items-center mt-4">
+      <div className="flex items-center justify-between mt-20">
+
+        
         <span
           className={`px-3 py-1 rounded-md text-white text-sm uppercase ${status === 'todo' ? 'bg-gray-600' : 'bg-green-500'}`}
         >
           {status}
         </span>
 
-        <Link to={`/update-content/${_id}`}> 
-        <button className='bg-blue-400 px-3 py-1 rounded-md text-black text-sm'> Update</button>
+<div className='flex items-start justify-between'>
+
+<Link to={`/update-content/${_id}`}> 
+        <button className='bg-blue-400 hover:bg-blue-500 px-5 py-2 rounded-md text-black  mr-4'> Update</button>
         </Link>    
 
          
-        <button className='bg-red-400 px-3 py-1 rounded-md text-black text-sm' onClick={() =>delelteContent(_id)}> Delete</button>
+        <button className='bg-red-400 px-5 py-2 rounded-md text-black ' onClick={() =>delelteContent(_id)}> Delete</button>
            
+</div>
+        
 
       </div>
       

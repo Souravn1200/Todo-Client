@@ -17,6 +17,12 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Login from './Home/Login/Login.jsx';
 import ContentDetails from './Home/ContentDetails/ContentDetails.jsx';
 import Update from './Home/Update/Update.jsx';
+import ContactUs from './Home/ContactUs/ContactUs.jsx';
+import AboutUs from './Home/AboutUs/AboutUs.jsx';
+import Blogs from './Home/Blogs/Blogs.jsx';
+import EditSaveComponent from './Home/LandingPage/LandingPage.jsx';
+import LandingPage from './Home/LandingPage/LandingPage.jsx';
+import PrivateRoute from './PrivateRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -25,11 +31,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Content></Content>
+        element: <LandingPage></LandingPage>
+      },
+      {
+        path: "/dashboard",
+        element: <PrivateRoute><Content></Content></PrivateRoute>
       },
       {
         path: '/create',
-        element: <Create></Create>
+        element: <PrivateRoute><Create></Create></PrivateRoute>
       },
       {
         path: '/register',
@@ -42,12 +52,24 @@ const router = createBrowserRouter([
       {
         path: '/todo-details/:id',
         loader: ({params}) => fetch(`http://localhost:5000/todo-details/${params.id}`),
-        element: <ContentDetails></ContentDetails>
+        element: <PrivateRoute><ContentDetails></ContentDetails> </PrivateRoute>
       },
       {
         path: '/update-content/:id',
         loader: ({params}) => fetch(`http://localhost:5000/todo-details/${params.id}`),
-        element: <Update></Update>
+        element: <PrivateRoute><Update></Update></PrivateRoute>
+      },
+      {
+        path: '/contact-us',
+        element: <ContactUs></ContactUs>
+      },
+      {
+        path: '/about-us',
+        element: <AboutUs></AboutUs>
+      },
+      {
+        path: '/blogs',
+        element:<Blogs></Blogs>
       }
     ],
   },

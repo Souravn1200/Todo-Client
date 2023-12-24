@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
         logInUser(email, password)
         .then(result => {
             Swal.fire("Logged In!", "", "success");
-            navigate('/');
+            navigate('/dashboard');
             console.log(result);
         })
         .catch(error => {
@@ -40,10 +40,10 @@ const Login = () => {
 
     return (
         <div>
-            <div className="max-w-md mx-auto pt-8 pb-8">
+            <div className="max-w-md mx-auto pt-8 pb-2 h-screen">
 
 <form
-    className="bg-[#31304D] shadow-md rounded px-8 pt-6 pb-8 mb-4 sm:max-w-lg sm:mx-auto"
+    className="rounded px-8 pt-6 pb-8 mb-4 sm:max-w-lg sm:mx-auto"
     onSubmit={handleSubmit(onSubmit)}
 >
     <div className="mb-4">
@@ -77,7 +77,7 @@ const Login = () => {
             name="password"
             placeholder="Your Password"
             {...register('password', { required: true })}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-[#F0ECE5] leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
         />
         {errors.name && <p className='text-red-700 text-center mt-2'>*Password required.</p>}
 
@@ -96,8 +96,13 @@ const Login = () => {
 </form>
 
 <div className="form-control mt-6 w-1/2 mx-auto">
-    <button onClick={handleGoogleRegister} className="btn text-white bg-[#3d657a] hover:bg-[#6096B4]">Register By Google</button>
+    <button onClick={handleGoogleRegister} className="btn text-white bg-[#3d657a] hover:bg-[#6096B4]">Register By Google 
+        
+        <img src="https://img.icons8.com/?size=48&id=17949&format=png" className='h-6' alt="" />
+     </button>
 </div>
+
+<p className='mx-auto text-white text-center mt-10'>Do Not Have An Account? <NavLink to="/register"> <a href="" className='text-white-700 underline'>  Please Register</a> </NavLink>  </p>
 
 </div>
         </div>

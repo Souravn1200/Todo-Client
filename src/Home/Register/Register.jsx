@@ -37,7 +37,7 @@ const Register = () => {
             })
               .then(() => {
                 if (user.email) {
-                  navigate('/');
+                  navigate('/dashboard');
                 }
               })
               .catch(error => {

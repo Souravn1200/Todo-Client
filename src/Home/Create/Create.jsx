@@ -2,48 +2,56 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Providers/AuthProvider';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const Create = () => {
-
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-      } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-      const onSubmit = data => {
+  const onSubmit = async (data) => {
+    const createTodo = {
+      title: data.Title,
+      descriptions: data.Descriptions,
+      deadline: data.Deadline,
+      status: 'todo',
+      email: user?.email,
+      priority: data.Priority,
+    };
 
-      const createTodo = {
-
-            title : data.Title,
-            descriptions: data.Descriptions,
-            deadline : data.Deadline,
-            status: 'todo',
-            email: user?.email,
-            priority : data.Priority
-
-        
+     axios.post('http://localhost:5000/createtodo', createTodo)
+     .then(res => {
+      if(res.data.acknowledged === true) {
+          navigate('/dashboard')
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Todo Created!",
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
+    })
+    .then(err=> {
+      console.log(err);
+    })
+     
+  };
 
-        axios.post('http://localhost:5000/createtodo', createTodo)
-        .then(res => {
-          console.log(res.data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      }
-    
 
     return (
-        <div className="max-w-md mx-auto pt-8 pb-8">
+        <div className="max-w-md mx-auto ">
 
         <form
-          className="bg-[#31304D] shadow-md rounded px-8 pt-6 pb-8 mb-4 sm:max-w-lg sm:mx-auto"
+          className="rounded px-8 pt-6 pb-8 sm:max-w-lg sm:mx-auto"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="mb-4">

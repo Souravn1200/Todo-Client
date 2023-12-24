@@ -1,9 +1,22 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const Navbar = () => {
 
+  const {user, logOut} = useContext(AuthContext)
+  const navigate = useNavigate()
   
-  
+  const handleLogOut = () => {
+
+    logOut()
+
+    .then(
+      user === null ? navigate('/') : <></>
+    )
+} 
+
+
     return (
   //       <div>
         
@@ -117,9 +130,24 @@ const Navbar = () => {
   </div>
   <div className="navbar-end hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-      <li><a className="bg-[#31304D] text-[#F0ECE5] hover:bg-[#161A30]"> <NavLink to="/create">Create Todo</NavLink> </a></li>
-      <li><a>Item 1</a></li>
-      <li><a>Item 3</a></li>
+
+      {
+        user ? <NavLink to="/dashboard"> <li><a className="mr-2">Dashboard</a></li></NavLink> : <></>
+      }
+
+    <NavLink to="/about-us"> <li><a className="mr-2">About Us</a></li></NavLink>
+    <NavLink to="/contact-us"><li><a className="mr-2">Contact Us</a></li></NavLink>
+    <NavLink to="/blogs"> <li><a className="mr-2">Blogs</a></li></NavLink>
+
+    {
+        user ?  <li><button onClick={handleLogOut} className="mr-2 bg-slate-200"> Log Out
+        <img src="https://www.svgrepo.com/show/21304/logout.svg" className="h-2" alt="" />
+         </button></li> : 
+
+        <><NavLink to="/login"> <li><a className="mr-2">Log In</a></li></NavLink>
+        </>
+      }
+
     </ul>
   </div>
   

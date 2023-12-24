@@ -42,7 +42,7 @@ const Update = () => {
     .then(res => {
         console.log(res.data);
         if(res.data.acknowledged === true) {
-            navigate('/')
+            navigate('/dashboard')
             Swal.fire({
               position: "center",
               icon: "success",
@@ -60,7 +60,7 @@ const Update = () => {
     
     
     return (
-        <div className="max-w-md mx-auto pt-8 pb-8">
+        <div className="max-w-md mx-auto ">
 
         <form
           className="bg-[#31304D] shadow-md rounded px-8 pt-6 pb-8 mb-4 sm:max-w-lg sm:mx-auto"
